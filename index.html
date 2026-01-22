@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASX2UP Terminal | Australian Two-Up Securities Exchange</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="terminal-header">
+      <div class="brand-block">
+        <span class="brand">ASX2UP</span>
+        <span class="brand-sub">Australian Two-Up Securities Exchange</span>
+      </div>
+      <div class="status-block">
+        <div>
+          <span class="label">Session</span>
+          <strong id="session-status">OPEN</strong>
+        </div>
+        <div>
+          <span class="label">Venue</span>
+          <strong>Sydney Core Matching</strong>
+        </div>
+        <div>
+          <span class="label">Time</span>
+          <strong id="clock">--:--:--</strong>
+        </div>
+      </div>
+    </header>
+
+    <div class="function-keys">
+      <span>F1 HELP</span>
+      <span>F2 MARKETS</span>
+      <span>F3 TRADE</span>
+      <span>F4 PORTFOLIO</span>
+      <span>F5 DATA</span>
+      <span>F6 NEWS</span>
+      <span>F7 COMMS</span>
+      <span>F8 REG</span>
+      <span>F9 ADMIN</span>
+      <span>F10 EXIT</span>
+    </div>
+
+    <main class="terminal-grid">
+      <section class="panel market-panel">
+        <div class="panel-header">
+          <h2>Two-Up Market Monitor</h2>
+          <span class="panel-meta">TAPE: LIVE | LATENCY: 0ms</span>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="label">Total Tosses</span>
+            <strong id="total-tosses">0</strong>
+          </div>
+          <div class="summary-item">
+            <span class="label">Heads Rate (30)</span>
+            <strong id="heads-rate">0.00%</strong>
+          </div>
+          <div class="summary-item">
+            <span class="label">Implied Fair Value</span>
+            <strong id="fair-value">$0.50</strong>
+          </div>
+          <div class="summary-item">
+            <span class="label">System Volatility</span>
+            <strong id="volatility">0.0%</strong>
+          </div>
+          <div class="summary-item">
+            <span class="label">Regime</span>
+            <strong id="regime">Neutral</strong>
+          </div>
+          <div class="summary-item">
+            <span class="label">Streak</span>
+            <strong id="streak">--</strong>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Implied Fair Value Curve</h3>
+            <span class="panel-meta">Rolling 60 tosses</span>
+          </div>
+          <canvas id="price-chart" width="640" height="220"></canvas>
+        </div>
+        <div class="tape-card">
+          <div class="panel-header small">
+            <h3>Time &amp; Sales</h3>
+            <span class="panel-meta">Last 20 prints</span>
+          </div>
+          <div class="tape" id="tape"></div>
+        </div>
+      </section>
+
+      <section class="panel depth-panel">
+        <div class="panel-header">
+          <h2>Contract Depth</h2>
+          <span class="panel-meta">Instrument: 2UP-HH</span>
+        </div>
+        <div class="last-print">
+          <span class="label">Last Result</span>
+          <strong id="last-result">--</strong>
+        </div>
+        <table class="orderbook">
+          <thead>
+            <tr>
+              <th>Bid</th>
+              <th>Size</th>
+              <th>Ask</th>
+              <th>Size</th>
+            </tr>
+          </thead>
+          <tbody id="orderbook"></tbody>
+        </table>
+        <div class="panel-subgrid">
+          <div>
+            <h4>Streak Protection Options</h4>
+            <p class="panel-meta">Barrier pays if streak breaks within 5 tosses.</p>
+            <div class="metric">
+              <span class="label">Indicative Premium</span>
+              <strong id="streak-premium">$0.00</strong>
+            </div>
+          </div>
+          <div>
+            <h4>Lest We Forget Liquidity Window</h4>
+            <p class="panel-meta">Overnight liquidity for ceremonial balance sheets.</p>
+            <div class="metric">
+              <span class="label">Overnight Rate</span>
+              <strong id="liquidity-rate">1.80%</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel trade-panel">
+        <div class="panel-header">
+          <h2>Trading Blotter</h2>
+          <span class="panel-meta">Client Segment: RETAIL‑INSTITUTIONAL</span>
+        </div>
+        <div class="execution-controls">
+          <div>
+            <span class="label">Execution Mode</span>
+            <select id="execution-mode">
+              <option value="market">Market</option>
+              <option value="limit">Limit</option>
+            </select>
+          </div>
+          <div>
+            <span class="label">Limit Price</span>
+            <input id="limit-price" type="number" step="0.01" placeholder="Optional" />
+          </div>
+        </div>
+        <div class="portfolio-grid">
+          <div>
+            <span class="label">Cash</span>
+            <strong id="portfolio-cash">$500.00</strong>
+          </div>
+          <div>
+            <span class="label">Equity</span>
+            <strong id="portfolio-equity">$500.00</strong>
+          </div>
+          <div>
+            <span class="label">Gross Exposure</span>
+            <strong id="portfolio-exposure">$0.00</strong>
+          </div>
+          <div>
+            <span class="label">Margin Utilisation</span>
+            <strong id="portfolio-margin">0.0%</strong>
+          </div>
+          <div>
+            <span class="label">Unrealised P/L</span>
+            <strong id="portfolio-pnl">$0.00</strong>
+          </div>
+          <div class="reset-block">
+            <button id="reset">Reset Portfolio</button>
+          </div>
+        </div>
+        <div class="message" id="message"></div>
+        <table class="trade-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Change</th>
+              <th>Position</th>
+              <th>Qty</th>
+              <th>Trade</th>
+            </tr>
+          </thead>
+          <tbody id="trade-table"></tbody>
+        </table>
+        <div class="positions">
+          <h3>Open Positions</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Qty</th>
+                <th>Avg Cost</th>
+                <th>Mark</th>
+                <th>P/L</th>
+              </tr>
+            </thead>
+            <tbody id="positions-body"></tbody>
+          </table>
+        </div>
+        <div class="session-logs">
+          <div class="panel-header small">
+            <h3>Session Logs</h3>
+            <div class="logs-meta">
+              <span class="panel-meta">Auto-saved to client storage</span>
+              <button id="export-logs" type="button">Export</button>
+            </div>
+          </div>
+          <div class="logs" id="session-logs"></div>
+        </div>
+      </section>
+
+      <section class="panel digger-panel">
+        <div class="panel-header">
+          <h2>Digger Derivatives — Player Indices</h2>
+          <span class="panel-meta">Simulated participant fortunes benchmarked daily.</span>
+        </div>
+        <table class="digger-table">
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Bias</th>
+              <th>Index Level</th>
+              <th>Day Change</th>
+              <th>Volatility</th>
+            </tr>
+          </thead>
+          <tbody id="digger-table"></tbody>
+        </table>
+      </section>
+
+      <section class="panel research-panel">
+        <div class="panel-header">
+          <h2>Player Research Panel</h2>
+          <span class="panel-meta">Simulated participant intelligence summaries.</span>
+        </div>
+        <div class="research-grid" id="research-grid"></div>
+      </section>
+
+      <section class="panel risk-panel">
+        <div class="panel-header">
+          <h2>Risk Summary</h2>
+          <span class="panel-meta">Portfolio exposures &amp; drawdown metrics.</span>
+        </div>
+        <div class="risk-grid">
+          <div>
+            <span class="label">Net Exposure</span>
+            <strong id="risk-net-exposure">$0.00</strong>
+          </div>
+          <div>
+            <span class="label">Leverage</span>
+            <strong id="risk-leverage">0.0x</strong>
+          </div>
+          <div>
+            <span class="label">Max Drawdown</span>
+            <strong id="risk-drawdown">0.0%</strong>
+          </div>
+        </div>
+        <table class="risk-table">
+          <thead>
+            <tr>
+              <th>Product Type</th>
+              <th>Exposure</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody id="risk-table"></tbody>
+        </table>
+      </section>
+
+      <section class="panel market-data-panel">
+        <div class="panel-header">
+          <h2>Market Data Summary</h2>
+          <span class="panel-meta">Prediction, futures, ETFs, digger derivatives.</span>
+        </div>
+        <table class="market-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Product</th>
+              <th>Bid</th>
+              <th>Ask</th>
+              <th>Last</th>
+              <th>Chg</th>
+              <th>Volume</th>
+            </tr>
+          </thead>
+          <tbody id="market-table"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="terminal-footer">
+      <span>ASX2UP MARKET INTEGRITY MONITOR — ACTIVE</span>
+      <span>CLIENT ID: 04‑C11‑CEREMONIAL</span>
+      <span>DATA CLASSIFICATION: OFFICIAL</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
