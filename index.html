@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two-Up Financial Exchange | Live Market Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-mark">TUF</div>
+        <div>
+          <h1>Two-Up Financial Exchange</h1>
+          <p class="subtitle">Official market data for regulated coin‑toss derivatives</p>
+        </div>
+      </div>
+      <div class="market-status">
+        <div>
+          <span class="label">Session</span>
+          <strong id="session-status">OPEN</strong>
+        </div>
+        <div>
+          <span class="label">Simulated Venue</span>
+          <strong>Sydney Market Core</strong>
+        </div>
+        <div>
+          <span class="label">System Time</span>
+          <strong id="clock">--:--:--</strong>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h2>Two-Up Price Discovery, Institutional Grade</h2>
+          <p>
+            The Two-Up Financial Exchange delivers a transparent market for coin‑toss
+            outcomes, enabling institutional participants to hedge ceremonial volatility.
+            Pricing is simulated from live two‑up sequences using a deterministic regulatory
+            model.
+          </p>
+          <div class="stat-grid">
+            <div class="stat">
+              <span class="label">Total Tosses</span>
+              <strong id="total-tosses">0</strong>
+            </div>
+            <div class="stat">
+              <span class="label">Heads Rate (30)</span>
+              <strong id="heads-rate">0.00%</strong>
+            </div>
+            <div class="stat">
+              <span class="label">Implied Fair Value</span>
+              <strong id="fair-value">$0.50</strong>
+            </div>
+            <div class="stat">
+              <span class="label">System Volatility</span>
+              <strong id="volatility">0.0%</strong>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3>Live Two-Up Feed</h3>
+          <div class="coin-feed" id="coin-feed"></div>
+          <div class="feed-summary">
+            <div>
+              <span class="label">Last Result</span>
+              <strong id="last-result">--</strong>
+            </div>
+            <div>
+              <span class="label">Streak</span>
+              <strong id="streak">--</strong>
+            </div>
+            <div>
+              <span class="label">Market Regime</span>
+              <strong id="regime">Neutral</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Prediction Market — Two-Up Outcome</h3>
+            <p>Contract: TUO-01 | Settlement: Immediate | Lot Size: 1 toss</p>
+          </div>
+          <div class="market-grid">
+            <div class="market-card">
+              <h4>YES — Two Heads</h4>
+              <div class="price" id="yes-price">$0.50</div>
+              <div class="meta">Best Bid / Ask</div>
+              <div class="bid-ask">
+                <span id="yes-bid">$0.48</span>
+                <span id="yes-ask">$0.52</span>
+              </div>
+              <div class="orderbook">
+                <h5>Order Book (Top 5)</h5>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Bid</th>
+                      <th>Size</th>
+                      <th>Ask</th>
+                      <th>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody id="yes-orderbook"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="market-card">
+              <h4>NO — Any Tails</h4>
+              <div class="price" id="no-price">$0.50</div>
+              <div class="meta">Best Bid / Ask</div>
+              <div class="bid-ask">
+                <span id="no-bid">$0.48</span>
+                <span id="no-ask">$0.52</span>
+              </div>
+              <div class="orderbook">
+                <h5>Order Book (Top 5)</h5>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Bid</th>
+                      <th>Size</th>
+                      <th>Ask</th>
+                      <th>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody id="no-orderbook"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Secondary Market — Two-Up Derivatives</h3>
+            <p>Complex products referencing simulated coin outcomes. Settlement via internal
+              clearing.</p>
+          </div>
+          <div class="derivatives">
+            <div class="derivative-card">
+              <h4>Heads Volatility Swap</h4>
+              <p>Strike: <strong id="vol-swap-strike">12.0%</strong> | Tenor: 30 tosses</p>
+              <div class="price" id="vol-swap-price">$1.20</div>
+              <div class="meta">Indicative Spread</div>
+              <div class="bid-ask">
+                <span id="vol-swap-bid">$1.10</span>
+                <span id="vol-swap-ask">$1.30</span>
+              </div>
+            </div>
+            <div class="derivative-card">
+              <h4>Two-Up Yield Note</h4>
+              <p>Coupon linked to streak duration</p>
+              <div class="price" id="yield-note">4.2%</div>
+              <div class="meta">Target Range 3.5%–6.0%</div>
+            </div>
+            <div class="derivative-card">
+              <h4>Regime Basket ETF</h4>
+              <p>Weighted exposure to heads‑biased regimes</p>
+              <div class="price" id="regime-etf">$98.40</div>
+              <div class="meta">NAV / Share</div>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <h4>Implied Fair Value (rolling)</h4>
+              <span class="label">Last 60 tosses</span>
+            </div>
+            <canvas id="price-chart" width="640" height="200"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>Two-Up Financial Exchange</strong>
+        <p>Clearing &amp; settlement simulated. Market data delayed by 0 seconds.</p>
+      </div>
+      <div class="footer-meta">
+        <span>Market Integrity Monitor: ACTIVE</span>
+        <span>Participant Status: VERIFIED</span>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
